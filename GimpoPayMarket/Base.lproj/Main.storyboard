@@ -15,10 +15,51 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" placeholder="검색어를 입력하세요." translatesAutoresizingMaskIntoConstraints="NO" id="WhI-CG-QkI">
+                                <rect key="frame" x="16" y="44" width="343" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cCm-9O-jPk">
+                                <rect key="frame" x="16" y="100" width="343" height="35"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="M1C-Qn-blx">
+                                        <rect key="frame" x="0.0" y="0.0" width="46" height="35"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eia-63-azv">
+                                                <rect key="frame" x="0.0" y="0.0" width="46" height="35"/>
+                                                <state key="normal" title="Button"/>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="M1C-Qn-blx" firstAttribute="top" secondItem="QVS-F0-9Hr" secondAttribute="top" id="GFs-a8-2Bf"/>
+                                    <constraint firstItem="M1C-Qn-blx" firstAttribute="leading" secondItem="QVS-F0-9Hr" secondAttribute="leading" id="JiO-EJ-EFL"/>
+                                    <constraint firstItem="M1C-Qn-blx" firstAttribute="bottom" secondItem="QVS-F0-9Hr" secondAttribute="bottom" id="Mw5-Rw-ila"/>
+                                    <constraint firstItem="M1C-Qn-blx" firstAttribute="trailing" secondItem="QVS-F0-9Hr" secondAttribute="trailing" id="TNU-2W-hnP"/>
+                                    <constraint firstItem="M1C-Qn-blx" firstAttribute="height" secondItem="Ryq-mb-tlC" secondAttribute="height" id="iL0-r1-eQc"/>
+                                    <constraint firstAttribute="height" constant="35" id="t5M-xU-mkQ"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="QVS-F0-9Hr"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="Ryq-mb-tlC"/>
+                            </scrollView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="WhI-CG-QkI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Qeg-O6-9GP"/>
+                            <constraint firstItem="cCm-9O-jPk" firstAttribute="top" secondItem="WhI-CG-QkI" secondAttribute="bottom" id="VI3-fz-JK7"/>
+                            <constraint firstItem="WhI-CG-QkI" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Ze7-Oz-0Be"/>
+                            <constraint firstItem="cCm-9O-jPk" firstAttribute="leading" secondItem="WhI-CG-QkI" secondAttribute="leading" id="dve-Di-smU"/>
+                            <constraint firstItem="WhI-CG-QkI" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-16" id="nhb-2V-eYo"/>
+                            <constraint firstItem="cCm-9O-jPk" firstAttribute="trailing" secondItem="WhI-CG-QkI" secondAttribute="trailing" id="wap-Wj-FcR"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="eXC-4u-Jvh"/>
+                    <connections>
+                        <outlet property="stackView" destination="M1C-Qn-blx" id="NyB-CH-YfO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -46,6 +87,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="5f7-yW-vj8" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wUL-n5-fRO">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
@@ -62,7 +104,7 @@
         <scene sceneID="UGi-EE-7MT">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zx1-DT-GWF" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="목록 검색" image="magnifyingglass" catalog="system" id="8Gv-8A-LzB"/>
+                    <tabBarItem key="tabBarItem" title="목록 검색" image="list.bullet" catalog="system" id="8Gv-8A-LzB"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="BQQ-A5-w8f">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -98,7 +140,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="list.bullet" catalog="system" width="128" height="88"/>
         <image name="map" catalog="system" width="128" height="110"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
