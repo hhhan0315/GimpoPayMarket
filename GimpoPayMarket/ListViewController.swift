@@ -10,6 +10,7 @@ import UIKit
 class ListViewController: UIViewController {
 
     @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var descLabel: UILabel!
     private var buttons = [UIButton]()
     
     override func viewDidLoad() {
@@ -51,7 +52,7 @@ class ListViewController: UIViewController {
             let button = UIButton()
             button.setTitle(title, for: .normal)
             button.setTitleColor(.black, for: .normal)
-            button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
             button.layer.borderWidth = 1
             button.layer.cornerRadius = 15
             button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
@@ -62,6 +63,7 @@ class ListViewController: UIViewController {
             buttons.append(button)
             stackView.addArrangedSubview(button)
         }
+        
     }
     
     func removeAllSubViews() {
@@ -75,6 +77,11 @@ class ListViewController: UIViewController {
             if button.tag == sender.tag {
                 button.backgroundColor = .gray
                 button.setTitleColor(.white, for: .normal)
+                guard let text = button.titleLabel?.text else {
+                    return
+                }
+                descLabel.text = "\(text)에 해당하는 개의 가맹점이 있습니다."
+                descLabel.font = UIFont.systemFont(ofSize: 14)
             } else {
                 button.backgroundColor = .none
                 button.setTitleColor(.black, for: .normal)
