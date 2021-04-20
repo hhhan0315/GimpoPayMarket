@@ -50,16 +50,55 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Cfi-J9-Igj">
+                                <rect key="frame" x="16" y="171.5" width="343" height="446.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="oS8-IG-rug">
+                                    <rect key="frame" x="0.0" y="111.5" width="343" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                </view>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="d3o-NX-UqK" detailTextLabel="6h6-J5-GoR" style="IBUITableViewCellStyleSubtitle" id="5cJ-HC-XFm">
+                                        <rect key="frame" x="0.0" y="28" width="343" height="55.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5cJ-HC-XFm" id="2qN-Zx-Mrp">
+                                            <rect key="frame" x="0.0" y="0.0" width="316" height="55.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d3o-NX-UqK">
+                                                    <rect key="frame" x="16" y="10" width="33" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6h6-J5-GoR">
+                                                    <rect key="frame" x="16" y="31.5" width="44" height="14.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Cfi-J9-Igj" firstAttribute="trailing" secondItem="XBn-7O-zim" secondAttribute="trailing" id="09d-bG-VDf"/>
                             <constraint firstItem="WhI-CG-QkI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Qeg-O6-9GP"/>
                             <constraint firstItem="cCm-9O-jPk" firstAttribute="top" secondItem="WhI-CG-QkI" secondAttribute="bottom" id="VI3-fz-JK7"/>
                             <constraint firstItem="XBn-7O-zim" firstAttribute="leading" secondItem="WhI-CG-QkI" secondAttribute="leading" id="VXL-D7-iBg"/>
                             <constraint firstItem="WhI-CG-QkI" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Ze7-Oz-0Be"/>
                             <constraint firstItem="cCm-9O-jPk" firstAttribute="leading" secondItem="WhI-CG-QkI" secondAttribute="leading" id="dve-Di-smU"/>
+                            <constraint firstItem="Cfi-J9-Igj" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="e1P-Vi-0Lh"/>
+                            <constraint firstItem="Cfi-J9-Igj" firstAttribute="top" secondItem="XBn-7O-zim" secondAttribute="bottom" constant="8" symbolic="YES" id="eoL-ce-JVS"/>
                             <constraint firstItem="XBn-7O-zim" firstAttribute="trailing" secondItem="WhI-CG-QkI" secondAttribute="trailing" id="fKM-RT-5uu"/>
+                            <constraint firstItem="Cfi-J9-Igj" firstAttribute="leading" secondItem="XBn-7O-zim" secondAttribute="leading" id="nKk-G1-H9U"/>
                             <constraint firstItem="WhI-CG-QkI" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-16" id="nhb-2V-eYo"/>
                             <constraint firstItem="XBn-7O-zim" firstAttribute="top" secondItem="cCm-9O-jPk" secondAttribute="bottom" constant="8" symbolic="YES" id="tPa-jW-bPU"/>
                             <constraint firstItem="cCm-9O-jPk" firstAttribute="trailing" secondItem="WhI-CG-QkI" secondAttribute="trailing" id="wap-Wj-FcR"/>
