@@ -27,6 +27,8 @@ struct Network {
             
             do {
                 let dataModel: DataModel = try JSONDecoder().decode(DataModel.self, from: data)
+                
+                // DidReceiveDataNotification 에 해당하면 처리 바란다.
                 NotificationCenter.default.post(name: DidReceiveDataNotification, object: nil, userInfo: ["data":dataModel.regionMnyFacltStus])
             } catch DecodingError.keyNotFound(let key, let context) {
                 Swift.print("could not find key \(key) in JSON: \(context.debugDescription)")

@@ -11,16 +11,20 @@ class ListViewController: UIViewController {
     
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var descLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
     private var buttons = [UIButton]()
-    private var regionMoneyData = [RegionMnyFacltStus]()
+    private var rowData = [Row]()
+    private let cellIdentifier = "marketTableCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView.dataSource = self
+//        self.tableView.delegate = self
+        
         setNavigationTitle()
         setStackViewInScrollView()
         requestNetwork()
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -93,8 +97,11 @@ class ListViewController: UIViewController {
     }
     
     func requestNetwork() {
-        let address = "https://openapi.gg.go.kr/RegionMnyFacltStus?Key=de4b73c6088a40aa9b532293ebdcad12&Type=json&SIGUN_CD=41570"
+        // 아래 끝에 가면 pIndex 하나 증가해서 api 또 호출해야 함
+        let address = "https://openapi.gg.go.kr/RegionMnyFacltStus?Key=de4b73c6088a40aa9b532293ebdcad12&Type=json&SIGUN_CD=41570&pIndex=1&pSize=50"
         Network.requestAPI(address: address)
+        
+        // 관찰자 수신 완료, 처리하겠음 의 의미
         NotificationCenter.default.addObserver(self, selector: #selector(self.didReceiveDataNotification(_:)), name: DidReceiveDataNotification, object: nil)
     }
     
@@ -103,10 +110,38 @@ class ListViewController: UIViewController {
             print("no data")
             return
         }
+        
+        guard let rowData = data.last?.row else {
+            print("no row data")
+            return
+        }
 
-        self.regionMoneyData = data
-        print("success")
-        print(self.regionMoneyData)
+        self.rowData = rowData
+        print("data receive success")
+        print(rowData)
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
 
+extension ListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.rowData.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath) as? MarketTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        let data = rowData[indexPath.row]
+        
+        cell.title.text = data.cmpnmNM
+        cell.subTitle.text = data.refineRoadnmAddr
+        
+        return cell
+    }
+    
+    
+}

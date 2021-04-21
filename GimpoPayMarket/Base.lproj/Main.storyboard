@@ -59,7 +59,7 @@
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="marketsCell" textLabel="d3o-NX-UqK" detailTextLabel="6h6-J5-GoR" style="IBUITableViewCellStyleSubtitle" id="5cJ-HC-XFm">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="marketTableCell" textLabel="d3o-NX-UqK" detailTextLabel="6h6-J5-GoR" style="IBUITableViewCellStyleSubtitle" id="5cJ-HC-XFm" customClass="MarketTableViewCell" customModule="GimpoPayMarket" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="343" height="55.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5cJ-HC-XFm" id="2qN-Zx-Mrp">
@@ -82,6 +82,10 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="subTitle" destination="6h6-J5-GoR" id="85S-Uh-dRk"/>
+                                            <outlet property="title" destination="d3o-NX-UqK" id="tPs-06-8Y4"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -108,6 +112,7 @@
                     <connections>
                         <outlet property="descLabel" destination="XBn-7O-zim" id="5i6-9g-WdU"/>
                         <outlet property="stackView" destination="M1C-Qn-blx" id="NyB-CH-YfO"/>
+                        <outlet property="tableView" destination="Cfi-J9-Igj" id="5GV-Tr-TVX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

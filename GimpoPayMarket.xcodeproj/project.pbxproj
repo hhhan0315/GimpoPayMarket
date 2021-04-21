@@ -13,6 +13,7 @@
 		01814E2D2626EDE000A6C4BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01814E2B2626EDE000A6C4BF /* Main.storyboard */; };
 		01814E2F2626EDE100A6C4BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01814E2E2626EDE100A6C4BF /* Assets.xcassets */; };
 		01814E322626EDE100A6C4BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01814E302626EDE100A6C4BF /* LaunchScreen.storyboard */; };
+		0191BC7D2630552B00EBDD41 /* MarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0191BC7C2630552B00EBDD41 /* MarketTableViewCell.swift */; };
 		01B337DE262C520B00B78796 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B337DD262C520B00B78796 /* MapViewController.swift */; };
 		01F02163262ED0CA008312E0 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F02162262ED0CA008312E0 /* DataModel.swift */; };
 		01F02167262ED4A8008312E0 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F02166262ED4A8008312E0 /* Network.swift */; };
@@ -27,6 +28,7 @@
 		01814E2E2626EDE100A6C4BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		01814E312626EDE100A6C4BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		01814E332626EDE100A6C4BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0191BC7C2630552B00EBDD41 /* MarketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketTableViewCell.swift; sourceTree = "<group>"; };
 		01B337DD262C520B00B78796 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		01F02162262ED0CA008312E0 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		01F02166262ED4A8008312E0 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 			children = (
 				01F02162262ED0CA008312E0 /* DataModel.swift */,
 				01F02166262ED4A8008312E0 /* Network.swift */,
+				0191BC7C2630552B00EBDD41 /* MarketTableViewCell.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -163,6 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01814E2A2626EDE000A6C4BF /* ListViewController.swift in Sources */,
+				0191BC7D2630552B00EBDD41 /* MarketTableViewCell.swift in Sources */,
 				01F02163262ED0CA008312E0 /* DataModel.swift in Sources */,
 				01F02167262ED4A8008312E0 /* Network.swift in Sources */,
 				01814E262626EDE000A6C4BF /* AppDelegate.swift in Sources */,
