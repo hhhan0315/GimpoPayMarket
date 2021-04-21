@@ -12,66 +12,20 @@ class ListViewController: UIViewController {
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var descLabel: UILabel!
     private var buttons = [UIButton]()
-    var dataStructure: DataModel?
-//    private var markets = [Markets]()
+    private var regionMoneyData = [RegionMnyFacltStus]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setNavigationTitle()
         setStackViewInScrollView()
+        requestNetwork()
         
-        let address = "https://openapi.gg.go.kr/RegionMnyFacltStus?Key=de4b73c6088a40aa9b532293ebdcad12&Type=json&SIGUN_CD=41570"
-        guard let url = URL(string: address) else { return }
-        
-        let session = URLSession(configuration: .default)
-        
-        let dataTask = session.dataTask(with: url, completionHandler: {
-            (data: Data?, response: URLResponse?, error: Error?) in
-            if let error = error {
-                print("1:" + error.localizedDescription)
-                return
-            }
-            
-            guard let data = data else { return }
-            
-            do {
-                self.dataStructure = try JSONDecoder().decode(DataModel.self, from: data)
-//                print(self.dataStructure)
-                DispatchQueue.main.async {
-                    if let lists = self.dataStructure?.regionMnyFacltStus {
-                        print(lists)
-                    }
-                }
-            } catch DecodingError.keyNotFound(let key, let context) {
-                Swift.print("could not find key \(key) in JSON: \(context.debugDescription)")
-            } catch DecodingError.valueNotFound(let type, let context) {
-                Swift.print("could not find type \(type) in JSON: \(context.debugDescription)")
-            } catch DecodingError.typeMismatch(let type, let context) {
-                Swift.print("type mismatch for type \(type) in JSON: \(context.debugDescription)")
-            } catch DecodingError.dataCorrupted(let context) {
-                Swift.print("data found to be corrupted in JSON: \(context.debugDescription)")
-            } catch let error as NSError {
-                NSLog("Error in read(from:ofType:) domain= \(error.domain), description= \(error.localizedDescription)")
-            }
-//            } catch(let err) {
-//                print("2:" + err.localizedDescription)
-//                return
-//            }
-        })
-        
-        dataTask.resume()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    
-//    @objc func didReceiveMarketssNotification(_ noti: Notification) {
-//        guard let markets: [Markets] = noti.userInfo?["markets"] as? [Markets] else {return}
-//        self.markets = markets
-//        print(markets)
-//    }
 
     func setNavigationTitle() {
         let label = UILabel()
@@ -138,6 +92,21 @@ class ListViewController: UIViewController {
         }
     }
     
+    func requestNetwork() {
+        let address = "https://openapi.gg.go.kr/RegionMnyFacltStus?Key=de4b73c6088a40aa9b532293ebdcad12&Type=json&SIGUN_CD=41570"
+        Network.requestAPI(address: address)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didReceiveDataNotification(_:)), name: DidReceiveDataNotification, object: nil)
+    }
+    
+    @objc func didReceiveDataNotification(_ noti: Notification) {
+        guard let data: [RegionMnyFacltStus] = noti.userInfo?["data"] as? [RegionMnyFacltStus] else {
+            print("no data")
+            return
+        }
 
+        self.regionMoneyData = data
+        print("success")
+        print(self.regionMoneyData)
+    }
 }
 

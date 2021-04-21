@@ -5,11 +5,9 @@
 //  Created by rae on 2021/04/20.
 //
 
-import Foundation
-
 struct DataModel: Codable {
     let regionMnyFacltStus: [RegionMnyFacltStus]
-    
+
     enum CodingKeys: String, CodingKey {
         case regionMnyFacltStus = "RegionMnyFacltStus"
     }
