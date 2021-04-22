@@ -7,7 +7,7 @@
 
 struct DataModel: Codable {
     let regionMnyFacltStus: [RegionMnyFacltStus]
-
+    
     enum CodingKeys: String, CodingKey {
         case regionMnyFacltStus = "RegionMnyFacltStus"
     }

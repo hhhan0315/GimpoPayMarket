@@ -15,22 +15,24 @@ class ListViewController: UIViewController {
     private var buttons = [UIButton]()
     private var rowData = [Row]()
     private let cellIdentifier = "marketTableCell"
+    private var pIndex = 1
+    private var isPaging = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.tableView.dataSource = self
-//        self.tableView.delegate = self
+        self.tableView.delegate = self
         
         setNavigationTitle()
         setStackViewInScrollView()
-        requestNetwork()
+        requestNetwork(pIndex: self.pIndex)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-
+    
     func setNavigationTitle() {
         let label = UILabel()
         label.numberOfLines = 2
@@ -96,9 +98,9 @@ class ListViewController: UIViewController {
         }
     }
     
-    func requestNetwork() {
-        // 아래 끝에 가면 pIndex 하나 증가해서 api 또 호출해야 함
-        let address = "https://openapi.gg.go.kr/RegionMnyFacltStus?Key=de4b73c6088a40aa9b532293ebdcad12&Type=json&SIGUN_CD=41570&pIndex=1&pSize=50"
+    func requestNetwork(pIndex: Int) {
+        let address = "https://openapi.gg.go.kr/RegionMnyFacltStus?Key=de4b73c6088a40aa9b532293ebdcad12&Type=json&SIGUN_CD=41570&pIndex=\(pIndex)&pSize=4"
+        self.isPaging = true
         Network.requestAPI(address: address)
         
         // 관찰자 수신 완료, 처리하겠음 의 의미
@@ -115,17 +117,22 @@ class ListViewController: UIViewController {
             print("no row data")
             return
         }
-
-        self.rowData = rowData
+        
+        for data in rowData {
+            self.rowData.append(data)
+        }
+        
         print("data receive success")
-        print(rowData)
+        
         DispatchQueue.main.async {
             self.tableView.reloadData()
+            self.isPaging = false
         }
+        NotificationCenter.default.removeObserver(self, name: DidReceiveDataNotification, object: nil)
     }
 }
 
-extension ListViewController: UITableViewDataSource {
+extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.rowData.count
     }
@@ -143,5 +150,19 @@ extension ListViewController: UITableViewDataSource {
         return cell
     }
     
-    
+}
+
+extension ListViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        let contentHeight = tableView.contentSize.height
+        let frameHeight = scrollView.frame.size.height
+        
+        if position > contentHeight - frameHeight + 50 {
+            if self.isPaging == false {
+                self.pIndex += 1
+                requestNetwork(pIndex: self.pIndex)
+            }
+        }
+    }
 }

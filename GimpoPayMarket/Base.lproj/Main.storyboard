@@ -45,19 +45,14 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="Ryq-mb-tlC"/>
                             </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XBn-7O-zim">
-                                <rect key="frame" x="16" y="143" width="343" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="16" y="143" width="343" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Cfi-J9-Igj">
-                                <rect key="frame" x="16" y="171.5" width="343" height="446.5"/>
+                                <rect key="frame" x="16" y="168" width="343" height="450"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="oS8-IG-rug">
-                                    <rect key="frame" x="0.0" y="111.5" width="343" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="marketTableCell" textLabel="d3o-NX-UqK" detailTextLabel="6h6-J5-GoR" style="IBUITableViewCellStyleSubtitle" id="5cJ-HC-XFm" customClass="MarketTableViewCell" customModule="GimpoPayMarket" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="343" height="55.5"/>
