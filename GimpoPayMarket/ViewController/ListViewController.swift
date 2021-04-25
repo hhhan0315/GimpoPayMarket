@@ -1,13 +1,14 @@
 //
-//  ViewController.swift
+//  ListViewController.swift
 //  GimpoPayMarket
 //
 //  Created by rae on 2021/04/14.
 //
 
 import UIKit
+import CoreLocation
 
-class ListViewController: UIViewController {
+class ListViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var descLabel: UILabel!
@@ -17,15 +18,21 @@ class ListViewController: UIViewController {
     private let cellIdentifier = "marketTableCell"
     private var pIndex = 1
     private var isPaging = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // 내 위치 주소 위도 저장
+        // 상하좌우 1.5km 범위정도에 대한 위도, 경도 달라짐을 범위로 지정 후
+        // 그 범위마다 주소를 set 에 저장해준다.
+        // 이후 이 주소로 Network로 요청한다.
         
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
         setNavigationTitle()
         setStackViewInScrollView()
+        self.tableView.tableFooterView = makeActivityIndicator()
         requestNetwork(pIndex: self.pIndex)
     }
     
@@ -33,7 +40,7 @@ class ListViewController: UIViewController {
         self.view.endEditing(true)
     }
     
-    func setNavigationTitle() {
+    private func setNavigationTitle() {
         let label = UILabel()
         label.numberOfLines = 2
         label.textAlignment = .center
@@ -50,7 +57,7 @@ class ListViewController: UIViewController {
         self.navigationItem.titleView = label
     }
     
-    func setStackViewInScrollView() {
+    private func setStackViewInScrollView() {
         // storyboard 오류 수정을 위해 button 임의로 추가해둔 것 삭제
         removeAllSubViews()
         
@@ -75,7 +82,7 @@ class ListViewController: UIViewController {
         
     }
     
-    func removeAllSubViews() {
+    private func removeAllSubViews() {
         for subview in stackView.arrangedSubviews {
             subview.removeFromSuperview()
         }
@@ -91,6 +98,13 @@ class ListViewController: UIViewController {
                 }
                 descLabel.text = "\(text)에 해당하는 개의 가맹점이 있습니다."
                 descLabel.font = UIFont.systemFont(ofSize: 14)
+                
+                for data in rowData {
+                    if data.indutypeNM == text {
+                        print(data.indutypeNM)
+                    }
+                }
+                
             } else {
                 button.backgroundColor = .none
                 button.setTitleColor(.black, for: .normal)
@@ -98,8 +112,9 @@ class ListViewController: UIViewController {
         }
     }
     
-    func requestNetwork(pIndex: Int) {
-        let address = "https://openapi.gg.go.kr/RegionMnyFacltStus?Key=de4b73c6088a40aa9b532293ebdcad12&Type=json&SIGUN_CD=41570&pIndex=\(pIndex)&pSize=4"
+    private func requestNetwork(pIndex: Int) {
+        let road = "김포시 걸포"
+        let address = "https://openapi.gg.go.kr/RegionMnyFacltStus?Key=de4b73c6088a40aa9b532293ebdcad12&Type=json&SIGUN_CD=41570&REFINE_ROADNM_ADDR=\(road)&pIndex=\(pIndex)&pSize=10"
         self.isPaging = true
         Network.requestAPI(address: address)
         
@@ -124,11 +139,24 @@ class ListViewController: UIViewController {
         
         print("data receive success")
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            self.tableView.tableFooterView = nil
             self.tableView.reloadData()
             self.isPaging = false
-        }
+        })
+        
         NotificationCenter.default.removeObserver(self, name: DidReceiveDataNotification, object: nil)
+    }
+    
+    private func makeActivityIndicator() -> UIView {
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 60))
+        
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = footerView.center
+        footerView.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        
+        return footerView
     }
 }
 
@@ -160,6 +188,7 @@ extension ListViewController: UIScrollViewDelegate {
         
         if position > contentHeight - frameHeight + 50 {
             if self.isPaging == false {
+                self.tableView.tableFooterView = makeActivityIndicator()
                 self.pIndex += 1
                 requestNetwork(pIndex: self.pIndex)
             }

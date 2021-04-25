@@ -11,8 +11,11 @@ let DidReceiveDataNotification = Notification.Name("DidReceiveData")
 struct Network {
     static func requestAPI(address: String) {
         let session = URLSession(configuration: .default)
+        guard let encoding = address.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            return
+        }
         
-        guard let url = URL(string: address) else {
+        guard let url = URL(string: encoding) else {
             print("URL is nil")
             return
         }
