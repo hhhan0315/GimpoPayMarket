@@ -31,8 +31,8 @@ struct Head: Codable {
 }
 
 struct Result: Codable {
-    let code: String
-    let message: String
+    let code: String?
+    let message: String?
     
     enum CodingKeys: String, CodingKey {
         case code = "CODE"
@@ -41,16 +41,16 @@ struct Result: Codable {
 }
 
 struct Row: Codable {
-    let sigunCD: String
-    let sigunNM: String
-    let cmpnmNM: String
-    let indutypeNM: String
-    let refineRoadnmAddr: String
-    let refineLotnoAddr: String
-    let refineZipCd: String
-    let refineWgs84Lat: String
-    let refineWgs84Logt: String
-    let dataStdDe: String
+    let sigunCD: String?
+    let sigunNM: String?
+    let cmpnmNM: String?
+    let indutypeNM: String?
+    let refineRoadnmAddr: String?
+    let refineLotnoAddr: String?
+    let refineZipCd: String?
+    let refineWgs84Lat: String?
+    let refineWgs84Logt: String?
+    let dataStdDe: String?
     
     enum CodingKeys: String, CodingKey {
         case sigunCD = "SIGUN_CD"

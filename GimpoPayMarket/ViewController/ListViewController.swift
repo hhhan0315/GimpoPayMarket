@@ -6,55 +6,33 @@
 //
 
 import UIKit
-import CoreLocation
 
-class ListViewController: UIViewController, CLLocationManagerDelegate {
+class ListViewController: UIViewController {
     
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var descLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     private var buttons = [UIButton]()
     private var rowData = [Row]()
+    private let sigunNames = ["광주시" , "김포시"]
     private let cellIdentifier = "marketTableCell"
+    private var previousSigunName = ""
+    private var sigunName = ""
     private var pIndex = 1
     private var isPaging = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 내 위치 주소 위도 저장
-        // 상하좌우 1.5km 범위정도에 대한 위도, 경도 달라짐을 범위로 지정 후
-        // 그 범위마다 주소를 set 에 저장해준다.
-        // 이후 이 주소로 Network로 요청한다.
-        
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
-        setNavigationTitle()
+        self.setNavigationTitle()
         setStackViewInScrollView()
-        self.tableView.tableFooterView = makeActivityIndicator()
-        requestNetwork(pIndex: self.pIndex)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
-    }
-    
-    private func setNavigationTitle() {
-        let label = UILabel()
-        label.numberOfLines = 2
-        label.textAlignment = .center
-        
-        let attributedString = NSMutableAttributedString(string: "김포페이\n가맹점 찾기")
-        let stringLength = attributedString.length
-        
-        attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 14, weight: .light)], range: NSRange(location: 0, length: 4))
-        
-        attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 16, weight: .bold)], range: NSRange(location: 5, length: stringLength-5))
-        
-        label.attributedText = attributedString
-        
-        self.navigationItem.titleView = label
     }
     
     private func setStackViewInScrollView() {
@@ -99,11 +77,11 @@ class ListViewController: UIViewController, CLLocationManagerDelegate {
                 descLabel.text = "\(text)에 해당하는 개의 가맹점이 있습니다."
                 descLabel.font = UIFont.systemFont(ofSize: 14)
                 
-                for data in rowData {
-                    if data.indutypeNM == text {
-                        print(data.indutypeNM)
-                    }
-                }
+//                for data in rowData {
+//                    if data.indutypeNM == text {
+//                        print(data.indutypeNM)
+//                    }
+//                }
                 
             } else {
                 button.backgroundColor = .none
@@ -112,9 +90,11 @@ class ListViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    private func requestNetwork(pIndex: Int) {
-        let road = "김포시 걸포"
-        let address = "https://openapi.gg.go.kr/RegionMnyFacltStus?Key=de4b73c6088a40aa9b532293ebdcad12&Type=json&SIGUN_CD=41570&REFINE_ROADNM_ADDR=\(road)&pIndex=\(pIndex)&pSize=10"
+    private func requestNetwork(pIndex: Int, sigunName: String) {
+        let key = "de4b73c6088a40aa9b532293ebdcad12"
+        let pSize = 10
+        let address = "https://openapi.gg.go.kr/RegionMnyFacltStus?Key=\(key)&Type=json&SIGUN_NM=\(sigunName)&pIndex=\(pIndex)&pSize=\(pSize)"
+        
         self.isPaging = true
         Network.requestAPI(address: address)
         
@@ -128,21 +108,26 @@ class ListViewController: UIViewController, CLLocationManagerDelegate {
             return
         }
         
-        guard let rowData = data.last?.row else {
+        guard let dataRow = data.last?.row else {
             print("no row data")
             return
         }
-        
-        for data in rowData {
-            self.rowData.append(data)
+
+        if self.previousSigunName != self.sigunName {
+            self.rowData.removeAll()
         }
         
+        for data in dataRow {
+            self.rowData.append(data)
+        }
+
         print("data receive success")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
             self.tableView.tableFooterView = nil
             self.tableView.reloadData()
             self.isPaging = false
+            self.previousSigunName = self.sigunName
         })
         
         NotificationCenter.default.removeObserver(self, name: DidReceiveDataNotification, object: nil)
@@ -158,8 +143,27 @@ class ListViewController: UIViewController, CLLocationManagerDelegate {
         
         return footerView
     }
+    
+    @IBAction func touchUpChooseRegion(_ sender: UIBarButtonItem) {
+        self.sigunName = self.sigunNames.first ?? ""
+        let alertController = UIAlertController(title: "지역 선택", message: "\n\n\n\n\n\n", preferredStyle: .alert)
+        
+        let pickerView = UIPickerView(frame: CGRect(x: 5, y: 20, width: 250, height: 140))
+        alertController.view.addSubview(pickerView)
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        
+        alertController.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: {_ in
+            self.tableView.tableFooterView = self.makeActivityIndicator()
+            self.requestNetwork(pIndex: self.pIndex, sigunName: self.sigunName)
+        }))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.rowData.count
@@ -180,6 +184,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     
 }
 
+// MARK: - UIScrollViewDelegate
 extension ListViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y
@@ -190,8 +195,27 @@ extension ListViewController: UIScrollViewDelegate {
             if self.isPaging == false {
                 self.tableView.tableFooterView = makeActivityIndicator()
                 self.pIndex += 1
-                requestNetwork(pIndex: self.pIndex)
+                requestNetwork(pIndex: self.pIndex, sigunName: self.sigunName)
             }
         }
+    }
+}
+
+// MARK: - UIPickerViewDelegate, UIPickerViewDelegate
+extension ListViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return sigunNames.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return sigunNames[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        sigunName = sigunNames[row]
     }
 }

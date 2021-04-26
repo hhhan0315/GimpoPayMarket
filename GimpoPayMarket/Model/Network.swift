@@ -27,7 +27,7 @@ struct Network {
             }
             
             guard let data = data else { return }
-            
+
             do {
                 let dataModel: DataModel = try JSONDecoder().decode(DataModel.self, from: data)
                 

@@ -103,7 +103,13 @@
                             <constraint firstItem="cCm-9O-jPk" firstAttribute="trailing" secondItem="WhI-CG-QkI" secondAttribute="trailing" id="wap-Wj-FcR"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="eXC-4u-Jvh"/>
+                    <navigationItem key="navigationItem" id="eXC-4u-Jvh">
+                        <barButtonItem key="rightBarButtonItem" title="지역 선택" id="tQk-qq-9NK">
+                            <connections>
+                                <action selector="touchUpChooseRegion:" destination="BYZ-38-t0r" id="NxI-QE-L4K"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="descLabel" destination="XBn-7O-zim" id="5i6-9g-WdU"/>
                         <outlet property="stackView" destination="M1C-Qn-blx" id="NyB-CH-YfO"/>

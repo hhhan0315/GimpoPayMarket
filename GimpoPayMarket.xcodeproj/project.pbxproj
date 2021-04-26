@@ -14,6 +14,7 @@
 		01814E2F2626EDE100A6C4BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01814E2E2626EDE100A6C4BF /* Assets.xcassets */; };
 		01814E322626EDE100A6C4BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01814E302626EDE100A6C4BF /* LaunchScreen.storyboard */; };
 		0191BC7D2630552B00EBDD41 /* MarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0191BC7C2630552B00EBDD41 /* MarketTableViewCell.swift */; };
+		019AF147263697D300C7C838 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019AF146263697D300C7C838 /* UIViewController.swift */; };
 		01B337DE262C520B00B78796 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B337DD262C520B00B78796 /* MapViewController.swift */; };
 		01F02163262ED0CA008312E0 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F02162262ED0CA008312E0 /* DataModel.swift */; };
 		01F02167262ED4A8008312E0 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F02166262ED4A8008312E0 /* Network.swift */; };
@@ -29,6 +30,7 @@
 		01814E312626EDE100A6C4BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		01814E332626EDE100A6C4BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0191BC7C2630552B00EBDD41 /* MarketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketTableViewCell.swift; sourceTree = "<group>"; };
+		019AF146263697D300C7C838 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		01B337DD262C520B00B78796 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		01F02162262ED0CA008312E0 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		01F02166262ED4A8008312E0 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 			children = (
 				01814E292626EDE000A6C4BF /* ListViewController.swift */,
 				01B337DD262C520B00B78796 /* MapViewController.swift */,
+				019AF146263697D300C7C838 /* UIViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -171,6 +174,7 @@
 				01F02167262ED4A8008312E0 /* Network.swift in Sources */,
 				01814E262626EDE000A6C4BF /* AppDelegate.swift in Sources */,
 				01814E282626EDE000A6C4BF /* SceneDelegate.swift in Sources */,
+				019AF147263697D300C7C838 /* UIViewController.swift in Sources */,
 				01B337DE262C520B00B78796 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -328,7 +332,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = kr.han.GimpoPayMarket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -347,7 +351,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = kr.han.GimpoPayMarket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
