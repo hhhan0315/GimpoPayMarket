@@ -14,11 +14,20 @@ class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     private var buttons = [UIButton]()
     private var rowData = [Row]()
+    private var filteredRowData = [Row]()
     private let sigunNames = ["광주시", "김포시"]
     private let cellIdentifier = "marketTableCell"
     private var sigunName = ""
     private var pIndex = 1
     private var isPaging = false
+    
+    let searchController = UISearchController(searchResultsController: nil)
+    private var isSearchBarEmpty: Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    private var isFiltering: Bool {
+        return searchController.isActive && !isSearchBarEmpty
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +37,7 @@ class ListViewController: UIViewController {
         
         self.setNavigationTitle()
         setStackViewInScrollView()
+        setSearchController()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -163,11 +173,33 @@ class ListViewController: UIViewController {
         alertController.setValue(contentView, forKey: "contentViewController")
         self.present(alertController, animated: true, completion: nil)
     }
+    
+    private func setSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "검색어를 입력해주세요."
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+    
+    private func filterContentForSearchText(_ searchText: String) {
+      filteredRowData = rowData.filter { (row: Row) -> Bool in
+        if let cmpnmNM = row.cmpnmNM {
+            return cmpnmNM.contains(searchText)
+        }
+        return false
+      }
+
+      tableView.reloadData()
+    }
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
 extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering {
+            return self.filteredRowData.count
+        }
         return self.rowData.count
     }
     
@@ -175,11 +207,16 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath) as? MarketTableViewCell else {
             return UITableViewCell()
         }
+        let row: Row
+
+        if isFiltering {
+            row = filteredRowData[indexPath.row]
+        } else {
+            row = rowData[indexPath.row]
+        }
         
-        let data = self.rowData[indexPath.row]
-        
-        cell.title.text = data.cmpnmNM
-        cell.subTitle.text = data.refineRoadnmAddr
+        cell.title.text = row.cmpnmNM
+        cell.subTitle.text = row.refineRoadnmAddr
         
         return cell
     }
@@ -219,5 +256,14 @@ extension ListViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.sigunName = self.sigunNames[row]
+    }
+}
+
+// MARK: - UISearchResultsUpdating
+extension ListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchBarText = searchController.searchBar.text {
+            filterContentForSearchText(searchBarText)
+        }
     }
 }
