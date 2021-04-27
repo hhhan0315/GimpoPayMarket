@@ -11,6 +11,7 @@ class UserSettings {
     static let shared: UserSettings = UserSettings()
     private init() { }
     
+    var totalCount: Int?
     var sigunName: String?
     
 }

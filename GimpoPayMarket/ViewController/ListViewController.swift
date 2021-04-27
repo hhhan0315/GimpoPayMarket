@@ -38,7 +38,7 @@ class ListViewController: UIViewController {
         // storyboard 오류 수정을 위해 button 임의로 추가해둔 것 삭제
         removeAllSubViews()
         
-        let titles = ["내 주변", "병원/약국", "슈퍼/마트", "스포츠/헬스", "미용/뷰티/위생", "레저", "학원/교육", "부동산/인테리어", "숙박/캠핑", "도서/문화/공연", "시장/거리", "전통시장/상점가", "일반음식점", "분식", "카페/베이커리", "산모/육아", "의류/잡화/안경", "자동차/자전거", "주유소", "가전/통신", "로컬친환경", "기타"]
+        let titles = ["지역", "병원/약국", "슈퍼/마트", "스포츠/헬스", "미용/뷰티/위생", "레저", "학원/교육", "부동산/인테리어", "숙박/캠핑", "도서/문화/공연", "시장/거리", "전통시장/상점가", "일반음식점", "분식", "카페/베이커리", "산모/육아", "의류/잡화/안경", "자동차/자전거", "주유소", "가전/통신", "로컬친환경", "기타"]
         var buttonTag = 0
         
         for title in titles {
@@ -100,6 +100,11 @@ class ListViewController: UIViewController {
             return
         }
         
+        guard let totalCount = data.first?.head?.first?.listTotalCount else {
+            print("no count")
+            return
+        }
+        
         guard let dataRow = data.last?.row else {
             print("no row data")
             return
@@ -114,12 +119,13 @@ class ListViewController: UIViewController {
         }
 
         print("data receive success")
+        UserSettings.shared.totalCount = totalCount
+        UserSettings.shared.sigunName = self.sigunName
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
             self.tableView.tableFooterView = nil
             self.tableView.reloadData()
             self.isPaging = false
-            UserSettings.shared.sigunName = self.sigunName
         })
         
         NotificationCenter.default.removeObserver(self, name: DidReceiveDataNotification, object: nil)
@@ -182,6 +188,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
 // MARK: - UIScrollViewDelegate
 extension ListViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.view.endEditing(true)
         let position = scrollView.contentOffset.y
         let contentHeight = tableView.contentSize.height
         let frameHeight = scrollView.frame.size.height
