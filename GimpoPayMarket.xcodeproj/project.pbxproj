@@ -13,6 +13,7 @@
 		01814E2D2626EDE000A6C4BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01814E2B2626EDE000A6C4BF /* Main.storyboard */; };
 		01814E2F2626EDE100A6C4BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01814E2E2626EDE100A6C4BF /* Assets.xcassets */; };
 		01814E322626EDE100A6C4BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01814E302626EDE100A6C4BF /* LaunchScreen.storyboard */; };
+		01911DCE2637F68000F24598 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01911DCD2637F68000F24598 /* UserSettings.swift */; };
 		0191BC7D2630552B00EBDD41 /* MarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0191BC7C2630552B00EBDD41 /* MarketTableViewCell.swift */; };
 		019AF147263697D300C7C838 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019AF146263697D300C7C838 /* UIViewController.swift */; };
 		01B337DE262C520B00B78796 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B337DD262C520B00B78796 /* MapViewController.swift */; };
@@ -29,6 +30,7 @@
 		01814E2E2626EDE100A6C4BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		01814E312626EDE100A6C4BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		01814E332626EDE100A6C4BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		01911DCD2637F68000F24598 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		0191BC7C2630552B00EBDD41 /* MarketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketTableViewCell.swift; sourceTree = "<group>"; };
 		019AF146263697D300C7C838 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		01B337DD262C520B00B78796 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 				01F02162262ED0CA008312E0 /* DataModel.swift */,
 				01F02166262ED4A8008312E0 /* Network.swift */,
 				0191BC7C2630552B00EBDD41 /* MarketTableViewCell.swift */,
+				01911DCD2637F68000F24598 /* UserSettings.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -172,6 +175,7 @@
 				0191BC7D2630552B00EBDD41 /* MarketTableViewCell.swift in Sources */,
 				01F02163262ED0CA008312E0 /* DataModel.swift in Sources */,
 				01F02167262ED4A8008312E0 /* Network.swift in Sources */,
+				01911DCE2637F68000F24598 /* UserSettings.swift in Sources */,
 				01814E262626EDE000A6C4BF /* AppDelegate.swift in Sources */,
 				01814E282626EDE000A6C4BF /* SceneDelegate.swift in Sources */,
 				019AF147263697D300C7C838 /* UIViewController.swift in Sources */,

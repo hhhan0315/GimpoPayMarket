@@ -14,9 +14,8 @@ class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     private var buttons = [UIButton]()
     private var rowData = [Row]()
-    private let sigunNames = ["광주시" , "김포시"]
+    private let sigunNames = ["광주시", "김포시"]
     private let cellIdentifier = "marketTableCell"
-    private var previousSigunName = ""
     private var sigunName = ""
     private var pIndex = 1
     private var isPaging = false
@@ -76,13 +75,6 @@ class ListViewController: UIViewController {
                 }
                 descLabel.text = "\(text)에 해당하는 개의 가맹점이 있습니다."
                 descLabel.font = UIFont.systemFont(ofSize: 14)
-                
-//                for data in rowData {
-//                    if data.indutypeNM == text {
-//                        print(data.indutypeNM)
-//                    }
-//                }
-                
             } else {
                 button.backgroundColor = .none
                 button.setTitleColor(.black, for: .normal)
@@ -95,7 +87,7 @@ class ListViewController: UIViewController {
         let pSize = 10
         let address = "https://openapi.gg.go.kr/RegionMnyFacltStus?Key=\(key)&Type=json&SIGUN_NM=\(sigunName)&pIndex=\(pIndex)&pSize=\(pSize)"
         
-        self.isPaging = true
+        isPaging = true
         Network.requestAPI(address: address)
         
         // 관찰자 수신 완료, 처리하겠음 의 의미
@@ -113,7 +105,7 @@ class ListViewController: UIViewController {
             return
         }
 
-        if self.previousSigunName != self.sigunName {
+        if UserSettings.shared.sigunName != self.sigunName {
             self.rowData.removeAll()
         }
         
@@ -127,7 +119,7 @@ class ListViewController: UIViewController {
             self.tableView.tableFooterView = nil
             self.tableView.reloadData()
             self.isPaging = false
-            self.previousSigunName = self.sigunName
+            UserSettings.shared.sigunName = self.sigunName
         })
         
         NotificationCenter.default.removeObserver(self, name: DidReceiveDataNotification, object: nil)
@@ -146,12 +138,15 @@ class ListViewController: UIViewController {
     
     @IBAction func touchUpChooseRegion(_ sender: UIBarButtonItem) {
         self.sigunName = self.sigunNames.first ?? ""
-        let alertController = UIAlertController(title: "지역 선택", message: "\n\n\n\n\n\n", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "지역 선택", message: nil, preferredStyle: .alert)
         
-        let pickerView = UIPickerView(frame: CGRect(x: 5, y: 20, width: 250, height: 140))
-        alertController.view.addSubview(pickerView)
+        let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         pickerView.delegate = self
         pickerView.dataSource = self
+        
+        let contentView = UIViewController()
+        contentView.view = pickerView
+        contentView.preferredContentSize.height = 150
         
         alertController.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: {_ in
@@ -159,6 +154,7 @@ class ListViewController: UIViewController {
             self.requestNetwork(pIndex: self.pIndex, sigunName: self.sigunName)
         }))
         
+        alertController.setValue(contentView, forKey: "contentViewController")
         self.present(alertController, animated: true, completion: nil)
     }
 }
@@ -174,14 +170,13 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         
-        let data = rowData[indexPath.row]
+        let data = self.rowData[indexPath.row]
         
         cell.title.text = data.cmpnmNM
         cell.subTitle.text = data.refineRoadnmAddr
         
         return cell
     }
-    
 }
 
 // MARK: - UIScrollViewDelegate
@@ -208,14 +203,14 @@ extension ListViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return sigunNames.count
+        return self.sigunNames.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return sigunNames[row]
+        return self.sigunNames[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        sigunName = sigunNames[row]
+        self.sigunName = self.sigunNames[row]
     }
 }
