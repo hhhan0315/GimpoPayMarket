@@ -15,6 +15,7 @@ class ListViewController: UIViewController {
     private var buttons = [UIButton]()
     private var rowData = [Row]()
     private var filteredRowData = [Row]()
+    private var clickedRowData = [Row]()
     private let sigunNames = ["김포시"]
     private let cellIdentifier = "marketTableCell"
     private var sigunName = ""
@@ -29,7 +30,10 @@ class ListViewController: UIViewController {
     private var isFiltering: Bool {
         return searchController.isActive && !isSearchBarEmpty
     }
-
+    private var isButtonClicking: Bool {
+        return previousTag != 0
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,7 +53,7 @@ class ListViewController: UIViewController {
         // storyboard 오류 수정을 위해 button 임의로 추가해둔 것 삭제
         removeAllSubViews()
         
-        let titles = ["지역", "병원/약국", "슈퍼/마트", "스포츠/헬스", "미용/뷰티/위생", "레저", "학원/교육", "부동산/인테리어", "숙박/캠핑", "도서/문화/공연", "시장/거리", "전통시장/상점가", "일반음식점", "분식", "카페/베이커리", "산모/육아", "의류/잡화/안경", "자동차/자전거", "주유소", "가전/통신", "로컬친환경", "기타"]
+        let titles = ["병원/약국", "슈퍼/마트", "스포츠/헬스", "미용/뷰티/위생", "레저", "학원/교육", "부동산/인테리어", "숙박/캠핑", "도서/문화/공연", "시장/거리", "전통시장/상점가", "일반음식점", "분식", "카페/베이커리", "산모/육아", "의류/잡화/안경", "자동차/자전거", "주유소", "가전/통신", "로컬친환경", "기타"]
         var buttonTag = 1
         
         for title in titles {
@@ -82,18 +86,26 @@ class ListViewController: UIViewController {
             sender.setTitleColor(.black, for: .normal)
             previousTag = 0
             descLabel.text = self.sigunName == "" ? "지역을 선택해주세요" : "\(self.sigunName)를 선택했습니다."
+            tableView.reloadData()
             return
         }
+        
         for button in buttons {
             if button.tag == sender.tag {
+                clickedRowData = rowData.filter { (row: Row) -> Bool in
+                    row.indutypeNM == button.currentTitle
+                }
+                
                 button.backgroundColor = .gray
                 button.setTitleColor(.white, for: .normal)
                 guard let text = button.titleLabel?.text else {
                     return
                 }
-                descLabel.text = "\(text)에 해당하는 개의 가맹점이 있습니다."
+                descLabel.text = "\(text)에 해당하는 \(clickedRowData.count)개의 가맹점이 있습니다."
                 descLabel.font = UIFont.systemFont(ofSize: 14)
                 previousTag = button.tag
+                
+                tableView.reloadData()
             } else {
                 button.backgroundColor = .none
                 button.setTitleColor(.black, for: .normal)
@@ -103,7 +115,7 @@ class ListViewController: UIViewController {
     
     private func requestNetwork(pIndex: Int, sigunName: String) {
         let key = "de4b73c6088a40aa9b532293ebdcad12"
-        let pSize = 10
+        let pSize = 100
         let address = "https://openapi.gg.go.kr/RegionMnyFacltStus?Key=\(key)&Type=json&SIGUN_NM=\(sigunName)&pIndex=\(pIndex)&pSize=\(pSize)"
         
         isPaging = true
@@ -119,11 +131,6 @@ class ListViewController: UIViewController {
             return
         }
         
-        guard let totalCount = data.first?.head?.first?.listTotalCount else {
-            print("no count")
-            return
-        }
-        
         guard let dataRow = data.last?.row else {
             print("no row data")
             return
@@ -136,9 +143,7 @@ class ListViewController: UIViewController {
         for data in dataRow {
             self.rowData.append(data)
         }
-
-        print("data receive success")
-        UserSettings.shared.totalCount = totalCount
+        
         UserSettings.shared.sigunName = self.sigunName
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
@@ -175,10 +180,7 @@ class ListViewController: UIViewController {
         
         alertController.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: {_ in
-            if let button = self.view.viewWithTag(1) as? UIButton {
-                button.setTitle(self.sigunName, for: .normal)
-                self.descLabel.text = "\(self.sigunName)를 선택했습니다."
-            }
+            self.descLabel.text = "\(self.sigunName)를 선택했습니다."
             self.tableView.tableFooterView = self.makeActivityIndicator()
             self.requestNetwork(pIndex: self.pIndex, sigunName: self.sigunName)
         }))
@@ -197,14 +199,23 @@ class ListViewController: UIViewController {
     }
     
     private func filterContentForSearchText(_ searchText: String) {
-      filteredRowData = rowData.filter { (row: Row) -> Bool in
-        if let cmpnmNM = row.cmpnmNM {
-            return cmpnmNM.contains(searchText)
+        if isButtonClicking {
+            filteredRowData = clickedRowData.filter { (row: Row) -> Bool in
+                if let cmpnmNM = row.cmpnmNM {
+                    return cmpnmNM.contains(searchText)
+                }
+                return false
+            }
+        } else {
+            filteredRowData = rowData.filter { (row: Row) -> Bool in
+                if let cmpnmNM = row.cmpnmNM {
+                    return cmpnmNM.contains(searchText)
+                }
+                return false
+            }
         }
-        return false
-      }
-
-      tableView.reloadData()
+        
+        tableView.reloadData()
     }
 }
 
@@ -214,6 +225,9 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         if isFiltering {
             return self.filteredRowData.count
         }
+        if isButtonClicking {
+            return self.clickedRowData.count
+        }
         return self.rowData.count
     }
     
@@ -222,9 +236,11 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         let row: Row
-
+        
         if isFiltering {
             row = filteredRowData[indexPath.row]
+        } else if isButtonClicking {
+            row = clickedRowData[indexPath.row]
         } else {
             row = rowData[indexPath.row]
         }
