@@ -15,11 +15,12 @@ class ListViewController: UIViewController {
     private var buttons = [UIButton]()
     private var rowData = [Row]()
     private var filteredRowData = [Row]()
-    private let sigunNames = ["광주시", "김포시"]
+    private let sigunNames = ["김포시"]
     private let cellIdentifier = "marketTableCell"
     private var sigunName = ""
     private var pIndex = 1
     private var isPaging = false
+    private var previousTag = 0
     
     let searchController = UISearchController(searchResultsController: nil)
     private var isSearchBarEmpty: Bool {
@@ -49,7 +50,7 @@ class ListViewController: UIViewController {
         removeAllSubViews()
         
         let titles = ["지역", "병원/약국", "슈퍼/마트", "스포츠/헬스", "미용/뷰티/위생", "레저", "학원/교육", "부동산/인테리어", "숙박/캠핑", "도서/문화/공연", "시장/거리", "전통시장/상점가", "일반음식점", "분식", "카페/베이커리", "산모/육아", "의류/잡화/안경", "자동차/자전거", "주유소", "가전/통신", "로컬친환경", "기타"]
-        var buttonTag = 0
+        var buttonTag = 1
         
         for title in titles {
             let button = UIButton()
@@ -76,6 +77,13 @@ class ListViewController: UIViewController {
     }
     
     @objc func touchUpButton(_ sender:UIButton) {
+        guard previousTag != sender.tag else {
+            sender.backgroundColor = .none
+            sender.setTitleColor(.black, for: .normal)
+            previousTag = 0
+            descLabel.text = self.sigunName == "" ? "지역을 선택해주세요" : "\(self.sigunName)를 선택했습니다."
+            return
+        }
         for button in buttons {
             if button.tag == sender.tag {
                 button.backgroundColor = .gray
@@ -85,6 +93,7 @@ class ListViewController: UIViewController {
                 }
                 descLabel.text = "\(text)에 해당하는 개의 가맹점이 있습니다."
                 descLabel.font = UIFont.systemFont(ofSize: 14)
+                previousTag = button.tag
             } else {
                 button.backgroundColor = .none
                 button.setTitleColor(.black, for: .normal)
@@ -119,7 +128,7 @@ class ListViewController: UIViewController {
             print("no row data")
             return
         }
-
+        
         if UserSettings.shared.sigunName != self.sigunName {
             self.rowData.removeAll()
         }
@@ -166,6 +175,10 @@ class ListViewController: UIViewController {
         
         alertController.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: {_ in
+            if let button = self.view.viewWithTag(1) as? UIButton {
+                button.setTitle(self.sigunName, for: .normal)
+                self.descLabel.text = "\(self.sigunName)를 선택했습니다."
+            }
             self.tableView.tableFooterView = self.makeActivityIndicator()
             self.requestNetwork(pIndex: self.pIndex, sigunName: self.sigunName)
         }))
@@ -177,6 +190,7 @@ class ListViewController: UIViewController {
     private func setSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "검색어를 입력해주세요."
         navigationItem.searchController = searchController
         definesPresentationContext = true
