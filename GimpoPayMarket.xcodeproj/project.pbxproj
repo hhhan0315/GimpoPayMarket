@@ -16,6 +16,7 @@
 		01911DCE2637F68000F24598 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01911DCD2637F68000F24598 /* UserSettings.swift */; };
 		0191BC7D2630552B00EBDD41 /* MarketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0191BC7C2630552B00EBDD41 /* MarketTableViewCell.swift */; };
 		019AA3EF263D2667002BDEE8 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019AA3EE263D2667002BDEE8 /* DetailViewController.swift */; };
+		019AA3F2263D6D0A002BDEE8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019AA3F1263D6D0A002BDEE8 /* MapKit.framework */; };
 		019AF147263697D300C7C838 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019AF146263697D300C7C838 /* UIViewController.swift */; };
 		01B337DE262C520B00B78796 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B337DD262C520B00B78796 /* MapViewController.swift */; };
 		01F02163262ED0CA008312E0 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F02162262ED0CA008312E0 /* DataModel.swift */; };
@@ -34,6 +35,7 @@
 		01911DCD2637F68000F24598 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		0191BC7C2630552B00EBDD41 /* MarketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketTableViewCell.swift; sourceTree = "<group>"; };
 		019AA3EE263D2667002BDEE8 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		019AA3F1263D6D0A002BDEE8 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		019AF146263697D300C7C838 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		01B337DD262C520B00B78796 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		01F02162262ED0CA008312E0 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
@@ -45,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				019AA3F2263D6D0A002BDEE8 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +59,7 @@
 			children = (
 				01814E242626EDE000A6C4BF /* GimpoPayMarket */,
 				01814E232626EDE000A6C4BF /* Products */,
+				019AA3F0263D6D0A002BDEE8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -102,6 +106,14 @@
 				019AA3EE263D2667002BDEE8 /* DetailViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		019AA3F0263D6D0A002BDEE8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				019AA3F1263D6D0A002BDEE8 /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

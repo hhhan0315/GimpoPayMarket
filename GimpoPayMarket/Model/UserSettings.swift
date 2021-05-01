@@ -11,6 +11,6 @@ class UserSettings {
     static let shared: UserSettings = UserSettings()
     private init() { }
     
+    var data: [Row]?
     var sigunName: String?
-    
 }

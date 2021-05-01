@@ -45,11 +45,6 @@ class ListViewController: UIViewController {
         setSearchController()
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        setSearchController()
-//    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -150,6 +145,7 @@ class ListViewController: UIViewController {
         }
         
         UserSettings.shared.sigunName = self.sigunName
+        UserSettings.shared.data = self.rowData
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
             self.tableView.tableFooterView = nil
@@ -229,11 +225,14 @@ class ListViewController: UIViewController {
 extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering {
+            UserSettings.shared.data = self.filteredRowData
             return self.filteredRowData.count
         }
         if isButtonClicking {
+            UserSettings.shared.data = self.clickedRowData
             return self.clickedRowData.count
         }
+        UserSettings.shared.data = self.rowData
         return self.rowData.count
     }
     
