@@ -45,6 +45,11 @@ class ListViewController: UIViewController {
         setSearchController()
     }
     
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        setSearchController()
+//    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -194,6 +199,7 @@ class ListViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "검색어를 입력해주세요."
+        navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
@@ -280,6 +286,10 @@ extension ListViewController: UIScrollViewDelegate {
         let position = scrollView.contentOffset.y
         let contentHeight = tableView.contentSize.height
         let frameHeight = scrollView.frame.size.height
+        
+        guard contentHeight != 0 else {
+            return
+        }
         
         if position > contentHeight - frameHeight + 50 {
             if self.isPaging == false {
