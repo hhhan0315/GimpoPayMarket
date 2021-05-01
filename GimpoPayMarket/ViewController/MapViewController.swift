@@ -11,6 +11,8 @@ import MapKit
 class MapViewController: UIViewController {
     @IBOutlet weak var map: MKMapView!
     
+    private var annotations = [MKAnnotation]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -19,6 +21,9 @@ class MapViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.map.removeAnnotations(annotations)
+        annotations.removeAll()
         
         guard let data = UserSettings.shared.data else {
             return
@@ -41,6 +46,7 @@ class MapViewController: UIViewController {
             point.coordinate = location
             point.title = row.cmpnmNM
             
+            annotations.append(point)
             self.map.addAnnotation(point)
         }
     }
