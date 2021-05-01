@@ -17,8 +17,8 @@ class ListViewController: UIViewController {
     private var filteredRowData = [Row]()
     private var clickedRowData = [Row]()
     private let sigunNames = ["김포시"]
-    private let cellIdentifier = "marketTableCell"
     private var sigunName = ""
+    private let cellIdentifier = "marketTableCell"
     private var pIndex = 1
     private var isPaging = false
     private var previousTag = 0
@@ -40,7 +40,7 @@ class ListViewController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
-        self.setNavigationTitle()
+        self.setNavigationTitle(title: "지역화폐\n가맹점 찾기")
         setStackViewInScrollView()
         setSearchController()
     }
@@ -249,6 +249,27 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         cell.subTitle.text = row.refineRoadnmAddr
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let nextViewController = self.storyboard?.instantiateViewController(identifier: "DetailVC") as? DetailViewController else {
+            return
+        }
+        
+        let row: Row
+        
+        if isFiltering {
+            row = filteredRowData[indexPath.row]
+        } else if isButtonClicking {
+            row = clickedRowData[indexPath.row]
+        } else {
+            row = rowData[indexPath.row]
+        }
+        
+        nextViewController.rowdata = row
+        
+        self.navigationController?.pushViewController(nextViewController, animated: true)
+        self.tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 

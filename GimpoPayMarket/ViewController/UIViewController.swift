@@ -8,12 +8,12 @@
 import UIKit
 
 extension UIViewController {
-    func setNavigationTitle() {
+    func setNavigationTitle(title: String) {
         let label = UILabel()
         label.numberOfLines = 2
         label.textAlignment = .center
         
-        let attributedString = NSMutableAttributedString(string: "지역화폐\n가맹점 찾기")
+        let attributedString = NSMutableAttributedString(string: title)
         let stringLength = attributedString.length
         
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 14, weight: .light)], range: NSRange(location: 0, length: 4))

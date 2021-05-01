@@ -12,7 +12,7 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.setNavigationTitle()
+        self.setNavigationTitle(title: "지역화폐\n가맹점 찾기")
     }
 
 
